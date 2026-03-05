@@ -8,7 +8,7 @@ LIBS_DIR    = libs
 BUILD_DIR   = build
 
 # ── Sources ───────────────────────────────────────────────────────────────────
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS = $(shell find $(SRC_DIR) -name '*.c')
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
 # ── Target detection ──────────────────────────────────────────────────────────
@@ -50,12 +50,13 @@ all: $(BUILD_DIR) $(OUT)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+	find $(SRC_DIR) -type d | sed 's|$(SRC_DIR)|$(BUILD_DIR)|' | xargs mkdir -p
 
 # Link
 $(OUT): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
-# Compile each .c → build/*.o
+# Compile each .c → build/*.o  (mirrors src/ subdirectory structure)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 

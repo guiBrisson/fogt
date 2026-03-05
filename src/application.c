@@ -27,7 +27,7 @@ void AppRunWindow(Application* app) {
 }
 
 static void AppNextSlide(Application* app) {
-    if (app->currentSlideIndex < app->presentation.slide_size - 1) {
+    if (app->currentSlideIndex < app->presentation.slideSize - 1) {
         app->currentSlideIndex++;
     }
 }

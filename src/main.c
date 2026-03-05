@@ -7,6 +7,7 @@
 
 #include "application.h"
 #include "presentation.h"
+#include "element.h"
 
 
 int HelloFromLua() {
@@ -51,15 +52,45 @@ int HelloFromLua() {
 }
 
 int main() {
+    // Steps
+	// 1. Execute the lua file
+	// 1.1. Load assets (AssetRegistry) - Do not forget to free all assets
+	// 1.2. Create the application - Do not forget to free application
+	// 2. layout calculation
+	// 3. layout generates elements for each slide
+
     Application* app = AppNew("Fogt", 1248, 702);
-    AppRunWindow(app);
-    
+      
     Slide* slide1 = PresAddSlide(&app->presentation);
-    if (slide1 != NULL) slide1->title = "First Slide";
+    if (slide1 != NULL) {
+        slide1->title = "First Slide";
+        Element* rect = SlideAddElement(slide1);
+        *rect = makeRectangle((Rectangle) {100, 100, 100, 100}, RED);
+
+         Element* text = SlideAddElement(slide1);
+		*text = makeText(
+			(Rectangle) { 10, 10, 0, 0 },
+			slide1->title,
+			0,
+			26,
+			(Color) { 0xff, 0xff, 0xff, 0xff }
+		);
+    }
     
     Slide* slide2 = PresAddSlide(&app->presentation);
-    if (slide2 != NULL) slide2->title = "Second Slide";
-
+    if (slide2 != NULL) {
+        slide2->title = "Second Slide";
+        Element* text = SlideAddElement(slide2);
+		*text = makeText(
+			(Rectangle) { 10, 10, 0, 0 },
+			slide2->title,
+			0,
+			26,
+			(Color) { 0xff, 0xff, 0xff, 0xff }
+		);
+    }
+    
+    AppRunWindow(app);
     AppLoop(app);
 
     AppFree(app);
