@@ -6,13 +6,8 @@
 #include "../include/lualib.h"
 #include "../include/raylib.h"
 
-void CreateWindow() {
-  const int screenWidth = 800;
-  const int screenHeight = 600;
+#include "application.h"
 
-  InitWindow(screenWidth, screenHeight, "fogt");
-  SetTargetFPS(60);
-}
 
 int HelloFromLua() {
   const char *tmpstr;
@@ -56,17 +51,11 @@ int HelloFromLua() {
 }
 
 int main() {
-  HelloFromLua();
-  CreateWindow();
-  while (!WindowShouldClose()) {
-    BeginDrawing();
-    {
-      ClearBackground(BLACK);
-      DrawText("Hello, World!", 10, 10, 20, LIGHTGRAY);
-    }
-    EndDrawing();
-  }
+    Application* app = AppNew("Fogt", 1248, 702);
+    AppRunWindow(app);
+    
+    AppLoop(app);
 
-  CloseWindow();
-  return 0;
+    AppFree(app);
+    return 0;
 }
