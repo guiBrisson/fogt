@@ -4,9 +4,9 @@
 #include "../include/lauxlib.h"
 #include "../include/lua.h"
 #include "../include/lualib.h"
-#include "../include/raylib.h"
 
 #include "application.h"
+#include "presentation.h"
 
 
 int HelloFromLua() {
@@ -54,6 +54,12 @@ int main() {
     Application* app = AppNew("Fogt", 1248, 702);
     AppRunWindow(app);
     
+    Slide* slide1 = PresAddSlide(&app->presentation);
+    if (slide1 != NULL) slide1->title = "First Slide";
+    
+    Slide* slide2 = PresAddSlide(&app->presentation);
+    if (slide2 != NULL) slide2->title = "Second Slide";
+
     AppLoop(app);
 
     AppFree(app);

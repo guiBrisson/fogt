@@ -5,6 +5,8 @@
 
 #include "../include/raylib.h"
 
+#include "presentation.h"
+
 #define MIN(i, j) (((i) < (j)) ? (i) : (j))
 #define MAX(i, j) (((i) > (j)) ? (i) : (j))
 
@@ -21,6 +23,7 @@ typedef struct {
 typedef struct {
     Window window;
     InputEvent input;
+    Presentation presentation;
     RenderTexture2D target;
     int slideWidth, slideHeight;
     size_t currentSlideIndex;
