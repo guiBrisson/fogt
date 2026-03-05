@@ -1,8 +1,10 @@
 #include <stdlib.h>
 
-#include "application.h"
 #include "../include/raylib.h"
+
+#include "application.h"
 #include "presentation.h"
+#include "renderer.h"
 
 Application* AppNew(const char* title, int width, int height) {
     Application* app = malloc(sizeof(Application));
@@ -57,8 +59,7 @@ static void AppDrawCurrentSlide(Application* app) {
     Slide* slide = PresGetSlideAt(&app->presentation, app->currentSlideIndex);
     if (slide == NULL) return;
 
-    // TODO: call the renderer to draw the current slide here
-    DrawText(slide->title, 10, 10, 26, BLACK);
+    renderSlide(slide);
 }
 
 static void AppDraw(Application* app) {
@@ -69,7 +70,6 @@ static void AppDraw(Application* app) {
     {
         // Draw everything in the render texture, note this will not be rendered on screen, yet
         BeginTextureMode(app->target);
-        ClearBackground(RAYWHITE);
         AppDrawCurrentSlide(app);
         EndTextureMode();
     }

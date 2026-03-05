@@ -2,10 +2,13 @@
 
 #include <stdio.h>
 
+#include "../include/raylib.h"
+
 #define MAX_SLIDES 256
 
 typedef struct {
     const char* title;
+    Color backgroundColor;
 } Slide;
 
 typedef struct {
