@@ -1,0 +1,21 @@
+# Build artifacts
+build/
+
+# Binaries
+fogt
+fogt.exe
+fogt-macos-x64
+fogt-macos-aarch64
+
+# Compiler/editor artifacts
+*.o
+*.a
+*.out
+*.dSYM/
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
