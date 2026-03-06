@@ -10,14 +10,14 @@
 #define MAX_SLIDES 256
 #define MAX_ELEMENTS 512
 
-typedef struct {
+typedef struct Slide {
     const char* title;
     Color backgroundColor;
     Element elements[MAX_ELEMENTS];
     size_t elementSize;
 } Slide;
 
-typedef struct {
+typedef struct Presentation {
     Slide slides[MAX_SLIDES];
     size_t slideSize;
 } Presentation;

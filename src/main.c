@@ -6,61 +6,65 @@
 #include "../include/lualib.h"
 
 #include "application.h"
+#include "asset_registry.h"
+#include "asset_registry.h"
 #include "presentation.h"
 #include "element.h"
 
 
 int HelloFromLua() {
-  const char *tmpstr;
+    const char *tmpstr;
 
-  lua_State *L = luaL_newstate();
-  int err;
-  luaopen_string(L);
-  luaL_openlibs(L);
+    lua_State *L = luaL_newstate();
+    int err;
+    luaopen_string(L);
+    luaL_openlibs(L);
 
-  const char *sample = "print(\"Hello World From Lua\")";
+    const char *sample = "print(\"Hello World From Lua\")";
 
-  err = luaL_loadbuffer(L, sample, strlen(sample), "mysample");
-  if (err) {
-    printf("Error initializing lua with hello world script: %i", err);
-    tmpstr = lua_tostring(L, -1);
-    if (tmpstr != NULL) {
-      printf("%s\n", tmpstr); /* the detailed error string */
-    } else {
-      /* could print more information or do some detailed checks */
+    err = luaL_loadbuffer(L, sample, strlen(sample), "mysample");
+    if (err) {
+        printf("Error initializing lua with hello world script: %i", err);
+        tmpstr = lua_tostring(L, -1);
+        if (tmpstr != NULL) {
+        printf("%s\n", tmpstr); /* the detailed error string */
+        } else {
+        /* could print more information or do some detailed checks */
+        }
+        lua_close(L);
+        return (0);
     }
+
+    err = lua_pcall(L, 0, 0, 0);
+    if (err) {
+        printf("Error running lua hello world script: %i", err);
+        tmpstr = lua_tostring(L, -1);
+        if (tmpstr != NULL) {
+        printf("%s\n", tmpstr); /* the detailed error string */
+        } else {
+        /* could print more information or do some detailed checks */
+        }
+        lua_close(L);
+        return (0);
+    }
+
+    printf("Success running hello world script\n");
     lua_close(L);
     return (0);
-  }
-
-  err = lua_pcall(L, 0, 0, 0);
-  if (err) {
-    printf("Error running lua hello world script: %i", err);
-    tmpstr = lua_tostring(L, -1);
-    if (tmpstr != NULL) {
-      printf("%s\n", tmpstr); /* the detailed error string */
-    } else {
-      /* could print more information or do some detailed checks */
-    }
-    lua_close(L);
-    return (0);
-  }
-
-  printf("Success running hello world script\n");
-  lua_close(L);
-  return (0);
 }
 
 int main() {
     // Steps
-	// 1. Execute the lua file
-	// 1.1. Load assets (AssetRegistry) - Do not forget to free all assets
-	// 1.2. Create the application - Do not forget to free application
-	// 2. layout calculation
-	// 3. layout generates elements for each slide
-
+    // 1. Init window
+	// 2. Execute the lua file
+	//  2.1. Load assets (AssetRegistry) - Do not forget to free all assets
+	// 3. layout calculation
+	// 4. layout generates elements for each slide
+    // 5. main loop
     Application* app = AppNew("Fogt", 1248, 702);
-      
+    AppRunWindow(app);
+    int font = RegistryLoadFont(&app->registry, "data/fonts/font.ttf", 14);
+
     Slide* slide1 = PresAddSlide(&app->presentation);
     if (slide1 != NULL) {
         slide1->title = "First Slide";
@@ -71,8 +75,8 @@ int main() {
 		*text = makeText(
 			(Rectangle) { 10, 10, 0, 0 },
 			slide1->title,
-			0,
-			26,
+			font,
+			14,
 			(Color) { 0xff, 0xff, 0xff, 0xff }
 		);
     }
@@ -84,15 +88,15 @@ int main() {
 		*text = makeText(
 			(Rectangle) { 10, 10, 0, 0 },
 			slide2->title,
-			0,
+			-1,
 			26,
 			(Color) { 0xff, 0xff, 0xff, 0xff }
 		);
     }
     
-    AppRunWindow(app);
     AppLoop(app);
 
+    HelloFromLua();
     AppFree(app);
     return 0;
 }

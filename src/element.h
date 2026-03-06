@@ -4,36 +4,36 @@
 
 #include "../include/raylib.h"
 
-typedef enum {
+typedef enum ElementType {
     ELEMENT_TEXT,
     ELEMENT_IMAGE,
     ELEMENT_SHAPE,
 } ElementType;
 
-typedef enum {
+typedef enum ShapeType {
     SHAPE_RECT,
     SHAPE_CIRCLE,
 } ShapeType;
 
-typedef struct {
+typedef struct TextData {
     const char* text;
     int fontId;
     int fontSize;
     Color color;
 } TextData;
 
-typedef struct {
+typedef struct ImageData {
     int assertId;
     Color tint;
     bool hasTint;
 } ImageData;
 
-typedef struct {
+typedef struct ShapeData {
     ShapeType shapeType;
     Color color;
 } ShapeData;
 
-typedef struct {
+typedef struct Element {
     ElementType type;
     Rectangle rect;
     union {

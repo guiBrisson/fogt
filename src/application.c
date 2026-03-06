@@ -5,9 +5,11 @@
 #include "application.h"
 #include "presentation.h"
 #include "renderer.h"
+#include "asset_registry.h"
 
 Application* AppNew(const char* title, int width, int height) {
     Application* app = malloc(sizeof(Application));
+    app->registry = RegistryNew();
     app->window = (Window){
         .title = title,
         .targetFPS = 60,
@@ -19,6 +21,7 @@ Application* AppNew(const char* title, int width, int height) {
 }
 
 void AppRunWindow(Application* app) {
+    SetTraceLogLevel(LOG_WARNING);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(app->slideWidth, app->slideHeight, app->window.title);
     SetWindowMinSize(600, 400);
@@ -59,7 +62,7 @@ static void AppDrawCurrentSlide(Application* app) {
     Slide* slide = PresGetSlideAt(&app->presentation, app->currentSlideIndex);
     if (slide == NULL) return;
 
-    renderSlide(slide);
+    renderSlide(slide, &app->registry);
 }
 
 static void AppDraw(Application* app) {
