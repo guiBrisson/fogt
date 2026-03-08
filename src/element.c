@@ -1,4 +1,5 @@
 #include "element.h"
+#include <stdbool.h>
 
 Element makeText(Rectangle rect, const char* text, int fontId, int fontSize, Color color) {
     TextData data = {
@@ -43,6 +44,20 @@ Element makeCircle(int centerX, int centerY, float radius, Color color) {
         .type = ELEMENT_SHAPE,
         .rect = rect,
         .data.shape = data,
+    };
+    return element;
+}
+
+Element makeImage(unsigned int assetId, Rectangle rect, bool hasTint, Color tint) {
+    ImageData data = {
+        .assetId = assetId,
+        .hasTint = hasTint,
+        .tint = tint,
+    };
+    Element element = {
+        .type = ELEMENT_IMAGE,
+        .rect = rect,
+        .data.image = data,
     };
     return element;
 }

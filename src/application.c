@@ -22,7 +22,7 @@ Application* AppNew(const char* title, int width, int height) {
 
 void AppRunWindow(Application* app) {
     SetTraceLogLevel(LOG_WARNING);
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
     InitWindow(app->slideWidth, app->slideHeight, app->window.title);
     SetWindowMinSize(600, 400);
     SetTargetFPS(app->window.targetFPS);
@@ -93,6 +93,7 @@ static void AppDraw(Application* app) {
             .height = (float)app->slideHeight * scale,
         };
 
+        SetTextureFilter(app->target.texture, TEXTURE_FILTER_BILINEAR);
         // Draw render texture to screen, properly scaled
         DrawTexturePro(
             app->target.texture, 

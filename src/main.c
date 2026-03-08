@@ -7,7 +7,6 @@
 
 #include "application.h"
 #include "asset_registry.h"
-#include "asset_registry.h"
 #include "presentation.h"
 #include "element.h"
 
@@ -63,7 +62,8 @@ int main() {
     // 5. main loop
     Application* app = AppNew("Fogt", 1248, 702);
     AppRunWindow(app);
-    int font = RegistryLoadFont(&app->registry, "data/fonts/font.ttf", 14);
+    int font = RegistryLoadFont(&app->registry, "resources/fonts/font.ttf", 24);
+    int catImg = RegistryLoadTexture(&app->registry, "resources/images/cat.jpg");
 
     Slide* slide1 = PresAddSlide(&app->presentation);
     if (slide1 != NULL) {
@@ -71,16 +71,16 @@ int main() {
         Element* rect = SlideAddElement(slide1);
         *rect = makeRectangle((Rectangle) {100, 100, 100, 100}, RED);
 
-         Element* text = SlideAddElement(slide1);
+        Element* text = SlideAddElement(slide1);
 		*text = makeText(
 			(Rectangle) { 10, 10, 0, 0 },
 			slide1->title,
 			font,
-			14,
+			24,
 			(Color) { 0xff, 0xff, 0xff, 0xff }
 		);
     }
-    
+
     Slide* slide2 = PresAddSlide(&app->presentation);
     if (slide2 != NULL) {
         slide2->title = "Second Slide";
@@ -92,8 +92,11 @@ int main() {
 			26,
 			(Color) { 0xff, 0xff, 0xff, 0xff }
 		);
+
+        Element* image = SlideAddElement(slide2);
+        *image = makeImage(catImg, (Rectangle) {100, 100, 400, 200}, false, WHITE);
     }
-    
+
     AppLoop(app);
 
     HelloFromLua();

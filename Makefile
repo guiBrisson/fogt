@@ -18,7 +18,7 @@ TARGET ?= linux-x64
 ifeq ($(TARGET), linux-x64)
   CC     = gcc
   OUT    = $(BINARY)
-  EXTRA  = -lm -lpthread -ldl
+  EXTRA  = -lX11 -lGL -lm -lpthread -ldl -lrt
 
 else ifeq ($(TARGET), windows-x64)
   CC     = x86_64-w64-mingw32-gcc

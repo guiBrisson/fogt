@@ -41,7 +41,7 @@ int RegistryLoadFont(AssetRegistry* registry, const char* path, unsigned int fon
     int id = registry->fontSize;
     FontEntry* entry = &registry->fonts[id];
     strncpy(entry->path, path, 255);
-    entry->font = LoadFontEx(path, 14, 0, 250);
+    entry->font = LoadFontEx(path, fontSize, 0, 250);
     entry->fontSize = fontSize;
     registry->fontSize++;
 

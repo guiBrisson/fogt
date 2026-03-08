@@ -15,7 +15,7 @@ typedef struct FontEntry{
     char path[256];
     unsigned int fontSize;
     Font font;
-} FontEntry ;
+} FontEntry;
 
 typedef struct AssetRegistry {
     TextureEntry textures[MAX_TEXTURES];

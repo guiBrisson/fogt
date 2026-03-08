@@ -23,7 +23,7 @@ typedef struct TextData {
 } TextData;
 
 typedef struct ImageData {
-    int assertId;
+    int assetId;
     Color tint;
     bool hasTint;
 } ImageData;
@@ -39,10 +39,11 @@ typedef struct Element {
     union {
         TextData text;
         ShapeData shape;
-        ImageData iamge;
+        ImageData image;
     } data;
 } Element;
 
 Element makeText(Rectangle rect, const char* text, int fontId, int fontSize, Color color);
 Element makeRectangle(Rectangle rect, Color color);
 Element makeCircle(int centerX, int centerY, float radius, Color color);
+Element makeImage(unsigned int assetId, Rectangle rect, bool hasTint, Color tint);
