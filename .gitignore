@@ -9,7 +9,6 @@ fogt-macos-aarch64
 
 # Compiler/editor artifacts
 *.o
-*.a
 *.out
 *.dSYM/
 
