@@ -14,8 +14,8 @@ Application* AppNew(const char* title, int width, int height) {
         .title = title,
         .targetFPS = 60,
     };
-    app->slideWidth = width;
-    app->slideHeight = height;
+    app->presentation.slideWidth = width;
+    app->presentation.slideHeight = height;
 
     return app;
 }
@@ -23,10 +23,10 @@ Application* AppNew(const char* title, int width, int height) {
 void AppRunWindow(Application* app) {
     SetTraceLogLevel(LOG_WARNING);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
-    InitWindow(app->slideWidth, app->slideHeight, app->window.title);
+    InitWindow(app->presentation.slideWidth, app->presentation.slideHeight, app->window.title);
     SetWindowMinSize(600, 400);
     SetTargetFPS(app->window.targetFPS);
-    app->target = LoadRenderTexture(app->slideWidth, app->slideHeight);
+    app->target = LoadRenderTexture(app->presentation.slideWidth, app->presentation.slideHeight);
 }
 
 static void AppNextSlide(Application* app) {
@@ -55,7 +55,7 @@ static void AppProcessInputs(Application* app) {
 }
 
 // static void AppUpdate(Application* app) {
-    // ApplicationUpdateCurrentSlide(app);
+    // AppUpdateCurrentSlide(app);
 // }
 
 static void AppDrawCurrentSlide(Application* app) {
@@ -68,7 +68,7 @@ static void AppDrawCurrentSlide(Application* app) {
 static void AppDraw(Application* app) {
     float screenWidth = (float)GetScreenWidth();
     float screenHeight = (float)GetScreenHeight();
-    float scale = MIN(screenWidth / app->slideWidth, screenHeight / app->slideHeight);
+    float scale = MIN(screenWidth / app->presentation.slideWidth, screenHeight / app->presentation.slideHeight);
 
     {
         // Draw everything in the render texture, note this will not be rendered on screen, yet
@@ -87,10 +87,10 @@ static void AppDraw(Application* app) {
         };
 
         Rectangle destination = {
-            .x = (screenWidth - ((float)app->slideWidth * scale)) * 0.5f,
-            .y = (screenHeight - ((float)app->slideHeight * scale)) * 0.5f,
-            .width = (float)app->slideWidth * scale,
-            .height = (float)app->slideHeight * scale,
+            .x = (screenWidth - ((float)app->presentation.slideWidth * scale)) * 0.5f,
+            .y = (screenHeight - ((float)app->presentation.slideHeight * scale)) * 0.5f,
+            .width = (float)app->presentation.slideWidth * scale,
+            .height = (float)app->presentation.slideHeight * scale,
         };
 
         SetTextureFilter(app->target.texture, TEXTURE_FILTER_BILINEAR);

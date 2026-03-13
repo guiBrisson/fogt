@@ -74,15 +74,13 @@ static void renderShapeElement(Element* element) {
             element->rect.height,
             shape.color
         );
-        break;
-    }
+    } break;
     case SHAPE_CIRCLE: {
         int cx = (int)(element->rect.x + element->rect.width / 2.0f);
         int cy = (int)(element->rect.y + element->rect.height / 2.0f);
         float radius = (float)(element->rect.width / 2);
         DrawCircle(cx, cy, radius, shape.color);
-        break;
-    }
+    } break;
     }
 }
 

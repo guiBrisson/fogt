@@ -20,6 +20,7 @@ typedef struct Slide {
 typedef struct Presentation {
     Slide slides[MAX_SLIDES];
     size_t slideSize;
+    int slideWidth, slideHeight;
 } Presentation;
 
 Slide* PresAddSlide(Presentation* pres);

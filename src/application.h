@@ -27,7 +27,6 @@ typedef struct Application {
     Presentation presentation;
     RenderTexture2D target;
     AssetRegistry registry;
-    int slideWidth, slideHeight;
     size_t currentSlideIndex;
 } Application;
 
