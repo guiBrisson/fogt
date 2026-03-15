@@ -2,17 +2,46 @@
 
 #include <assert.h>
 
+#include "asset_registry.h"
+#include "element.h"
 #include "presentation.h"
 
 
-static void layoutPassSize(LayoutNode* node) {
-    if (node->type == LAYOUT_ELEMENT) return;
+static void layoutPassSize(LayoutNode* node, AssetRegistry* registry) {
+    if (node->type == LAYOUT_ELEMENT) {
+        if (node->width == 0 || node->height == 0) {
+            switch (node->data.element.pendingElement.type) {
+                case ELEMENT_TEXT: {
+                    int fontId = node->data.element.pendingElement.data.text.fontId;
+                    char* text = node->data.element.pendingElement.data.text.text;
+                    Font* font = RegistryFontById(registry, fontId);
+                    float fontSize = node->data.element.pendingElement.data.text.fontSize;
+                    Vector2 measured = MeasureTextEx(*font, text, fontSize, 1.0f);
+        
+                    if (node->width == 0) node->width = measured.x;
+                    if (node->height == 0) node->height = measured.y;
+                } break;
+
+                case ELEMENT_IMAGE: {
+                    int imageId = node->data.element.pendingElement.data.image.assetId;
+                    Texture2D* image = RegistryTextureById(registry, imageId);
+                    if (node->width == 0) node->width = image->width;
+                    if (node->height == 0) node->height = image->height;
+                } break;
+
+                case ELEMENT_SHAPE: {
+                    
+                } break;
+            };
+        }
+        return;
+    }
 
     ContainerData* container = &node->data.container;
 
     // recurse into children first - bottom up
     for (int i = 0; i < container->childCount; i++) {
-        layoutPassSize(container->children[i]);
+        layoutPassSize(container->children[i], registry);
     }
 
     float totalWidth = 0;
@@ -169,7 +198,7 @@ void layoutEndSlide(LayoutContext* ctx) {
     
     LayoutSlideScope* scope = &ctx->currentScope;
 
-    layoutPassSize(&scope->root);
+    layoutPassSize(&scope->root, ctx->registry);
     layoutPassPosition(&scope->root, 0, 0);
     layoutFlatten(&scope->root, scope->targetSlide);
 

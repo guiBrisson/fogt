@@ -16,7 +16,7 @@ typedef enum ShapeType {
 } ShapeType;
 
 typedef struct TextData {
-    const char* text;
+    char* text;
     int fontId;
     int fontSize;
     Color color;

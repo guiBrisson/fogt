@@ -1,9 +1,18 @@
 #include "element.h"
+
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 Element makeText(Rectangle rect, const char* text, int fontId, int fontSize, Color color) {
+    // TODO: free the string whenever the element is freed
+    size_t len = strlen(text) + 1;
+    char* owned = malloc(len);
+    memcpy(owned, text, len);
+
     TextData data = {
-        .text = text,
+        .text = owned,
         .fontId = fontId,
         .fontSize = fontSize,
         .color = color,
